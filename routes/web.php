@@ -5,22 +5,20 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SetUpScheduleController;
-use Pest\Plugins\Profile;
+use App\Http\Controllers\ProfileController;
 
-// Route::get('/', function () {
-//     return view('home');
-// });
+// ==========================
+// HALAMAN PUBLIK (Tidak Perlu Login)
+// ==========================
 
-Route::get('/', [App\Http\Controllers\CustomerController::class, 'index'])->name('home');
+// Home
+Route::get('/', [CustomerController::class, 'index'])->name('home');
 
-// Login Logout route
+// Login
 Route::get('/login-user', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login-user', [LoginController::class, 'login'])->name('login-user');
 
-Route::get('/admin', [CustomerController::class, 'admin'])
-    ->middleware('auth')
-    ->name('admin');
-
+// Logout
 Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
@@ -28,37 +26,34 @@ Route::post('/logout', function () {
     return redirect()->route('login');
 })->name('logout');
 
-
-// set up schedule route
+// Set Up Schedule
 Route::get('/set-up-schedule', function () {
     return view('customers.setUpSchedule');
 })->name('setUpSchedule');
 
-Route::get('/setUpSchedule', [CustomerController::class, 'create'])->name('setUpSchedule');
+Route::get('/setUpSchedule', [CustomerController::class, 'create'])->name('setUpSchedule.form');
 Route::post('/setUpSchedule', [CustomerController::class, 'store'])->name('customer.store');
 
-Route::get('/', [App\Http\Controllers\CustomerController::class, 'index']);
+// Profil Terapis
+Route::get('/profil-terapis', [ProfileController::class, 'showSertifikat'])->name('profile');
+
+// Kontak
+Route::get('/kontak', [ProfileController::class, 'kontak'])->name('kontak');
 
 
-// Profile route
-Route::get('/profil-terapis', function () {
-    return view('profilTerapis');
-})->name('profile');
+// ==========================
+// HALAMAN ADMIN (Harus Login)
+// ==========================
+Route::middleware(['auth'])->group(function () {
 
-Route::get('/profil-terapis', [\App\Http\Controllers\ProfileController::class, 'showSertifikat'])->name('profile');
+    // Dashboard Admin
+    Route::get('/admin', [CustomerController::class, 'admin'])->name('admin');
 
+    // Fitur pencarian admin
+    Route::get('/admin/search', [CustomerController::class, 'search'])->name('admin.search');
 
-// Contact route
-Route::get('/kontak', function () {
-    return view('kontak');
-})->name('kontak');
-
-Route::get('/kontak', [\App\Http\Controllers\ProfileController::class, 'kontak'])->name('kontak');
-
-
-// manipulation routes
-Route::get('/admin/search', [App\Http\Controllers\CustomerController::class, 'search'])->name('admin.search');
-
-Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
-Route::put('/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
-Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+    // Manipulasi data customer
+    Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+});
