@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     /* background-color: rgb(162, 100, 237); */
     background-image: url("../assets/img/bg/homebg2.jpg");
@@ -20,6 +24,36 @@ body {
     margin: 40px auto; /* Tengah horizontal, jarak atas & bawah */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .bodyground {
+        width: 90vw;
+        padding: 15px;
+        margin: 20px auto;
+    }
+
+    .d-flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .d-flex .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .bodyground {
+        width: 95vw;
+        padding: 12px;
+        margin: 15px auto;
+    }
+
+    h3 {
+        font-size: 18px;
+        padding: 0.8rem;
+    }
 }
 
 .header {
