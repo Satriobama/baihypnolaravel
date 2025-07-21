@@ -8,7 +8,7 @@ class ProfileController extends Controller
 {
     public function showSertifikat()
     {
-        $images = ['SertifikatBasic.jpg', 'SertifikatAdvance.jpg', 'SertifikatProfesional.jpg']; // Example array
+        $images = ['sertifikatbasic.jpg', 'SertifikatAdvance.jpg', 'SertifikatProfesional.jpg']; // Example array
         return view('profilTerapis', compact('images'));
     }
 
