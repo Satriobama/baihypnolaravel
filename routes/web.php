@@ -27,12 +27,8 @@ Route::post('/logout', function () {
 })->name('logout');
 
 // Set Up Schedule
-Route::get('/set-up-schedule', function () {
-    return view('customers.setUpSchedule');
-})->name('setUpSchedule');
-
-Route::get('/setUpSchedule', [CustomerController::class, 'create'])->name('setUpSchedule.form');
-Route::post('/setUpSchedule', [CustomerController::class, 'store'])->name('customer.store');
+Route::get('/set-up-schedule', [CustomerController::class, 'create'])->name('setUpSchedule');
+Route::post('/set-up-schedule', [CustomerController::class, 'store'])->name('customer.store');
 
 // Profil Terapis
 Route::get('/profil-terapis', [ProfileController::class, 'showSertifikat'])->name('profile');
