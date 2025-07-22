@@ -269,7 +269,10 @@
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
                     events: events,
-                    height: 550
+                    height: 550,
+                    buttonText: {
+                        today: 'Today'
+                    }
                 });
                 calendar.render();
             }
