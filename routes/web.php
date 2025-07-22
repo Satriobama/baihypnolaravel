@@ -22,7 +22,6 @@ Route::post('/login-user', [LoginController::class, 'login'])->name('login-user'
 Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
-    request()->session()->regenerateToken();
     return redirect()->route('login');
 })->name('logout');
 
