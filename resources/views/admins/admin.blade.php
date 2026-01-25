@@ -51,7 +51,16 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Logout</a></li>
+                    {{-- <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Logout</a></li> --}}
+                    <li class="nav-item">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        <a class="nav-link" href="#"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -70,37 +79,95 @@
     <section class="page-section" id="datacust" data-aos="fade-up">
         <div class="container py-5">
             <h1 class="mb-4 text-center">Admin Dashboard</h1>
-            <div class="row align-items-center mb-3">
-                <div class="col-md-6">
-                    <h3 class="mb-0">Daftar Klien</h3>
+            
+            <!-- Tabs for navigation -->
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="customers-tab" data-bs-toggle="tab" data-bs-target="#customers-content" type="button" role="tab">Klien</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-content" type="button" role="tab">Ulasan</button>
+                </li>
+            </ul>
+
+            <!-- Customers Tab -->
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="customers-content" role="tabpanel">
+                    <div class="row align-items-center mb-3">
+                        <div class="col-md-6">
+                            <h3 class="mb-0">Daftar Klien</h3>
+                        </div>
+                        <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                            <form action="{{ route('admin') }}" method="GET" class="d-flex justify-content-md-end">
+                                <input type="text" name="q" class="form-control me-2"
+                                    placeholder="Cari nama/email/telepon..." value="{{ request('q') }}">
+                            </form>
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-striped align-middle table-responsive">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th>No</th>
+                                <th>Nama Lengkap</th>
+                                <th>Nama Panggilan</th>
+                                <th>Email</th>
+                                <th>No. Telepon</th>
+                                <th>Alamat</th>
+                                <th>Tanggal Konsultasi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customer-table">
+                            @include('admins.partialTable', ['customers' => $customers])
+                        </tbody>
+                    </table>
+                    <div id="pagination-wrapper">
+                        {{ $customers->appends(request()->only('q'))->links('pagination::bootstrap-5') }}
+                    </div>
                 </div>
-                <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                    <form action="{{ route('admin') }}" method="GET" class="d-flex justify-content-md-end">
-                        <input type="text" name="q" class="form-control me-2"
-                            placeholder="Cari nama/email/telepon..." value="{{ request('q') }}">
-                        {{-- <button class="btn btn-primary" type="submit">Cari</button> --}}
-                    </form>
+
+                <!-- Reviews Tab -->
+                <div class="tab-pane fade" id="reviews-content" role="tabpanel">
+                    <h3 class="mb-4">Daftar Ulasan Pelanggan</h3>
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Rating</th>
+                                <th>Ulasan</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($reviews as $key => $review)
+                                <tr>
+                                    <td style="text-align: center;">{{ $key + 1 }}</td>
+                                    <td>{{ $review->name }}</td>
+                                    <td style="text-align: center;">
+                                        @for($i = 0; $i < $review->rating; $i++)
+                                            ⭐
+                                        @endfor
+                                    </td>
+                                    <td>{{ Str::limit($review->reviews, 50) }}</td>
+                                    <td style="text-align: center;">{{ $review->created_at->format('d-m-Y') }}</td>
+                                    <td style="text-align: center;">
+                                        <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus ulasan ini?')">Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Belum ada ulasan</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <table class="table table-bordered table-striped align-middle table-responsive">
-                <thead>
-                    <tr style="text-align: center;">
-                        <th>No</th>
-                        <th>Nama Lengkap</th>
-                        <th>Nama Panggilan</th>
-                        <th>Email</th>
-                        <th>No. Telepon</th>
-                        <th>Alamat</th>
-                        <th>Tanggal Konsultasi</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="customer-table">
-                    @include('admins.partialTable', ['customers' => $customers])
-                </tbody>
-            </table>
-            <div id="pagination-wrapper">
-                {{ $customers->appends(request()->only('q'))->links('pagination::bootstrap-5') }}
             </div>
     </section>
 
@@ -156,6 +223,7 @@
             </form>
         </div>
     </div>
+    
 
     <!-- Footer-->
     <footer class="footer py-4 bg-light">
@@ -202,7 +270,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
-        const scheduledDates = {!! json_encode($scheduledDates) !!};
+        const scheduledDates = json_encode($scheduledDates);
         const minDate = "{{ $today }}";
         const maxDate = "{{ $maxDate }}";
     </script>

@@ -11361,6 +11361,7 @@ header.masthead .masthead-heading {
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+/* Gaya untuk desktop (≥768px) */
 @media (min-width: 768px) {
     header.masthead {
         padding-top: 17rem;
@@ -11377,6 +11378,37 @@ header.masthead .masthead-heading {
         font-weight: 700;
         line-height: 4.5rem;
         margin-bottom: 4rem;
+    }
+}
+
+/* Gaya untuk mobile (<768px) */
+@media (max-width: 767.98px) {
+    header.masthead {
+        display: flex; /* Flex untuk center konten */
+        flex-direction: column; /* Susun vertikal */
+        justify-content: center; /* Center secara vertikal */
+        align-items: center; /* Center secara horizontal */
+        text-align: center; /* Teks rata tengah */
+        min-height: 100vh; /* Isi tinggi layar penuh */
+        padding: 0 1rem; /* Supaya tidak mepet */
+    }
+    header.masthead .container {
+        width: 100%;
+        padding: 0; /* Hilangkan padding bawaan container */
+    }
+    header.masthead .masthead-subheading {
+        font-size: 1.5rem;
+        font-style: italic;
+        margin-bottom: 1rem;
+    }
+    header.masthead .masthead-heading {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+    header.masthead .btn {
+        font-size: 1rem;
+        padding: 0.75rem 1.25rem;
     }
 }
 
@@ -11705,3 +11737,50 @@ header.masthead4 .masthead4-heading {
         Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+
+.reviews {
+  padding: 60px 20px;
+  background-color: #f9fafb;
+  text-align: center;
+}
+
+.reviews h2 {
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.review-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.review-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  text-align: left;
+}
+
+.stars {
+  color: #fbbf24;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.review-text {
+  font-size: 15px;
+  color: #374151;
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.reviewer {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+

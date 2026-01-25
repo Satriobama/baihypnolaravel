@@ -13,7 +13,8 @@
     <title>Hypnotherapy</title>
 
     <!-- Favicon-->
-    {{-- <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />   --}}
+    {{--
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" /> --}}
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -21,7 +22,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/home.css" rel="stylesheet" />
-    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" /> --}}
+    {{--
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" /> --}}
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
     <!-- FullCalendar CSS -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
@@ -94,9 +96,16 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#schedule">Jadwal</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="menuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Menu
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#about">Tentang</a></li>
+                            <li><a class="dropdown-item" href="#services">Layanan</a></li>
+                            <li><a class="dropdown-item" href="#schedule">Jadwal</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('profile') }}">Profil Terapis</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('kontak') }}">Kontak</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">LOGIN</a></li>
@@ -203,7 +212,7 @@
                     <br>
                     <div class="text-center">
                         <a href="{{ route('setUpSchedule') }}" class="btn btn-primary btn-xl text-uppercase"
-                            id="setUp">Set Up Your Consultation</a>
+                            id="setUp">Mulai Atur Jadwal</a>
                     </div>
                 </div>
                 <br>
@@ -215,8 +224,39 @@
             </div>
     </section>
 
+    <section class="page-section bg-light" id="reviews" data-aos="fade-up">
+        <div class="container">
+            <div>
+                <h2 class="text-center mb-5">Ulasan Pelanggan</h2>
+
+                <div class="review-cards">
+                    @forelse($reviews as $review)
+                        <div class="review-card">
+                            <div class="stars">
+                                @for($i = 0; $i < $review->rating; $i++)
+                                    ★
+                                @endfor
+                            </div>
+                            <p class="review-text">
+                                {{ $review->reviews }}
+                            </p>
+                            <span class="reviewer">— {{ $review->name }}</span>
+                        </div>
+                    @empty
+                        <p class="text-center text-muted">Belum ada ulasan. <a href="{{ route('review') }}">Berikan ulasan Anda sekarang!</a></p>
+                    @endforelse
+                </div>
+
+                <!-- <div class="text-center mt-4">
+                    <a href="{{ route('review') }}" class="btn btn-primary btn-xl text-uppercase">Berikan Ulasan</a>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+
     <!-- Footer-->
-    <footer class="footer py-4 bg-light">
+    <footer class="footer py-4">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-4 text-lg-start">Copyright &copy; BaiHypno 2025</div>
@@ -253,9 +293,9 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var bookedDates = @json($bookedDates ?? []);
-            var events = bookedDates.map(function(date) {
+            var events = bookedDates.map(function (date) {
                 return {
                     title: 'Booked',
                     start: date,
@@ -281,8 +321,8 @@
         document.body.classList.add('page-fade-in');
 
         // Animasi keluar halaman saat klik link
-        document.querySelectorAll('a[href]').forEach(function(link) {
-            link.addEventListener('click', function(e) {
+        document.querySelectorAll('a[href]').forEach(function (link) {
+            link.addEventListener('click', function (e) {
                 // Hanya animasi untuk link internal (bukan target _blank atau file download)
                 if (
                     link.hostname === window.location.hostname &&
@@ -291,7 +331,7 @@
                 ) {
                     e.preventDefault();
                     document.body.classList.remove('page-fade-in');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         window.location = link.href;
                     }, 400); // waktu sama dengan transition
                 }

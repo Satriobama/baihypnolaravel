@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\CustomersReview;
 
 class CustomerController extends Controller
 {
@@ -24,6 +25,7 @@ class CustomerController extends Controller
 
         $customers = $query->paginate(5);
         $scheduledDates = Customer::pluck('day_consultation')->toArray();
+        $reviews = \App\Models\CustomersReview::latest()->get();
 
         // Tanggal penting untuk Flatpickr
         $today = date('Y-m-d');
@@ -38,6 +40,7 @@ class CustomerController extends Controller
             'mindate' => $mindate,
             'maxDate' => $maxDate,
             'maxDate2' => $maxDate2,
+            'reviews' => $reviews,
         ]);
     }
 
@@ -137,6 +140,32 @@ class CustomerController extends Controller
     public function index()
     {
         $bookedDates = \App\Models\Customer::pluck('day_consultation')->toArray();
-        return view('home', compact('bookedDates'));
+        $reviews = \App\Models\CustomersReview::all();
+        return view('home', compact('bookedDates', 'reviews'));
+
+    }
+
+    public function review()
+    {
+        return view('ulasan');
+    }
+
+    public function storeReview(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'rating' => 'required|integer|between:1,5',
+            'reviews' => 'required|string'
+        ]);
+
+        \App\Models\CustomersReview::create($validated);
+
+        return redirect()->back()->with('success', 'Terima kasih atas ulasan Anda!');
+    }
+
+    public function destroyReview($id)
+    {
+        \App\Models\CustomersReview::destroy($id);
+        return redirect()->route('admin')->with('success', 'Ulasan berhasil dihapus!');
     }
 }

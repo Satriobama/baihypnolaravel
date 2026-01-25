@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     /* background-color: rgb(162, 100, 237); */
     background-image: url("../assets/img/bg/homebg2.jpg");
@@ -25,17 +29,35 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* .jumbotron1 {
-    background-color: #1e88e5;
-    width: 100%;
-    justify-content: center;
-    text-align: center;
+@media (max-width: 768px) {
+    .bodyground {
+        width: 90vw;
+        padding: 15px;
+        margin: 20px auto;
+    }
+
+    .d-flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .d-flex .btn {
+        width: 100%;
+    }
 }
 
-.jumbotron1 h4 {
-    color: #ffffff;
-    opacity: 1;
-} */
+@media (max-width: 480px) {
+    .bodyground {
+        width: 95vw;
+        padding: 12px;
+        margin: 15px auto;
+    }
+
+    h3 {
+        font-size: 18px;
+        padding: 0.8rem;
+    }
+}
 
 .header {
     background-color: rgb(125, 76, 184);

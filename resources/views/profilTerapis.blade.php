@@ -84,18 +84,17 @@
                 <div class="col-md-5">
                     <div class="ms-md-2 ms-lg-5">
                         <img class="img-fluid rounded-3" src="assets/img/portofolio/profile2.jpeg"
-                            style="width:450px; height:500px; object-fit:cover; object-position:center;"
+                            style="width:400px; height:400px; object-fit:cover; object-position:center;"
                             alt="Proses Hipnoterapi" />
                         <br>
                         <p
-                            style="font-family: 'Roboto Slab', serif; font-size: 1.8rem; font-weight: 600; color: #3b1e54 ;">
+                            style="font-family: 'Roboto Slab', serif; font-size: 1.6rem; font-weight: 600; color: #3b1e54 ;">
                             RR. Baiduri Nilawati, S.Pd., M.Si.
                         </p>
                     </div>
                 </div>
                 <div class="col-md-6 offset-md-1">
                     <div class="ms-md-2 ms-lg-5">
-                        <br>
                         <h2 class="display-5 fw-bold">Siapa saya?</h2>
                         <p class="lead" style="text-align: justify; font-size: 1rem;">
                             Saat ini saya berprofesi sebagai Guru bimbingan konseling di SMA Negeri 39 Jakarta, memilik
